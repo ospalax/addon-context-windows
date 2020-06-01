@@ -79,6 +79,12 @@
               <RegistryValue Type="string" Name="PWD" Value="[INSTALLDIR]" />
             </RegistryKey>
           </Component>
+
+          <Component Id="Customization" Guid="*">
+            <RegistryKey Root="HKLM" Key="SYSTEM\CurrentControlSet\Control\Session Manager\Power">
+              <RegistryValue Type="integer" Name="HiberbootEnabled" Value="0"/>
+            </RegistryKey>
+          </Component>
         </Directory>
       </Directory>
     </Directory>
@@ -88,6 +94,7 @@
       <ComponentRef Id="Context"/>
       <ComponentRef Id="Service"/>
       <ComponentRef Id="Examples"/>
+      <ComponentRef Id="Customization"/>
     </Feature>
 
     <InstallExecuteSequence>
