@@ -28,7 +28,17 @@ For beta releases, refer to the latest
 
 * **Linux host**
 * latest [msitools](https://wiki.gnome.org/msitools)
-* binary [rhsrvany.exe](https://github.com/rwmjones/rhsrvany)
+* binary [nssm.exe](https://nssm.cc/) [present]
+* binary [rhsrvany.exe](https://github.com/rwmjones/rhsrvany) [optional]
+
+The service manager **NSSM** is the preferred tool to manage services because
+it handles long running services better and more correctly (srvany/rhsrvany
+fails to terminate its child processes on stop). NSSM is in public domain and
+the binary is part of this repo. There are both 32bit and 64bit versions -
+currently 32bit version is used because it covers broader set of systems.
+
+If you wish to use rhsrvany instead then you must set the shell variable
+`SRV_MANAGER` to `rhsrvany` otherwise it will default to `nssm`.
 
 On RHEL (CentOS) and Fedora systems, the required binary
 [rhsrvany.exe](https://github.com/rwmjones/rhsrvany) is distributed as part
@@ -51,6 +61,18 @@ $ VERSION=1.0.0 TARGET=msi ./generate.sh
 New package is created as `${NAME}-${VERSION}.msi`,
 e.g. `one-context-1.0.0.msi` in the `out/` directory.
 
+You can also built both the iso and msi targets like this:
+
+```
+$ ./generate-all.sh
+```
+
+Or with a different service manager and explicit version:
+
+```
+$ env SRV_MANAGER=rhsrvany VERSION=5.13 ./generate-all.sh
+```
+
 Please ignore following assertion on package build, which is caused
 by skipping the attribute `Start` in tag `ServiceControl`. The parameter
 is optional in WiX specification, but the `msitools` still counts with it.
@@ -66,7 +88,7 @@ This addon is largely based upon the work by André Monteiro and Tiago Batista i
 
 ## License
 
-Copyright 2002-2020, OpenNebula Project, OpenNebula Systems (formerly C12G Labs)
+Copyright 2002-2021, OpenNebula Project, OpenNebula Systems (formerly C12G Labs)
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may
 not use this file except in compliance with the License. You may obtain
